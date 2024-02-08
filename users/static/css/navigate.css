@@ -1,0 +1,13 @@
+/* 
+  CSS for navigation navbar
+*/
+.navbar-brand span {
+  font-size: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.nav-item .nav-link {
+  font-size: 1.5rem;
+  font-weight: 500;
+}

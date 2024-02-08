@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from users.forms import LoginForm
 
@@ -18,9 +18,13 @@ def user_login(request):
             )
             if user:
                 login(request, user)
-                return HttpResponse("User authenticated Successfully.")
+                return redirect("users:index")
             else:
-                return HttpResponse("Invalid Credentials.")
+                return render(
+                    request,
+                    "users/login.html",
+                    {"login_form": form, "error_message": "Invalid Credential"},
+                )
     form = LoginForm()
     return render(request, "users/login.html", {"login_form": form})
 
