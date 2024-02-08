@@ -31,6 +31,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body text-center">
+        <a href="{% url 'users:password_change' %}" class="btn btn-outline-success w-75 my-3" role="button">Change Password</a>
         <a href="{% url 'users:user-logout' %}" class="btn btn-outline-danger w-75" role="button">Logout</a>
     </div>
 </div>
