@@ -1,3 +1,11 @@
-h1 {
-  color: red;
+img.avatar-photo {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+}
+
+.icons img.like-dislike-image,
+.icons img.comment-image {
+  width: 2.7rem;
+  cursor: pointer;
 }

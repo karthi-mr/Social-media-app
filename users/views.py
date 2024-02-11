@@ -19,7 +19,7 @@ def user_login(request):
             )
             if user:
                 login(request, user)
-                return redirect("users:index")
+                return redirect("index")
             else:
                 return render(
                     request,
