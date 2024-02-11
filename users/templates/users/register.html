@@ -1,0 +1,60 @@
+{% extends 'users/base.html' %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-uppercase my-3 text-center text-primary opacity-50">User Registration</h1>
+    <form action="" method="post" class="w-50 mx-auto shadow-lg px-5 py-4">
+        {% csrf_token %}
+        {% if error_message %}
+        <div class="alert alert-danger">
+            <span class="fw-semibold">{{ error_message }}</span>
+        </div>
+        {% endif %}
+        {% if register_success %}
+        <div class="alert alert-success">
+            <span class="fw-semibold">You have registered successfully.</span>
+            <a href="{% url 'users:user-login' %}"
+                class="link-primary link-underline-opacity-0 link-underline-opacity-50-hover">Go to Login</a>
+        </div>
+        {% endif %}
+        <!-- first_name & last_name -->
+        <div class="mb-3">
+            <div class="row">
+                <!-- first name -->
+                <div class="col-md-6 col-12">
+                    <label for="id_first_name" class="form-label">First name</label>
+                    <input type="text" name="first_name" maxlength="150" id="id_first_name" class="form-control">
+                </div>
+                <!-- last name -->
+                <div class="col-md-6 col-12">
+                    <label for="id_last_name" class="form-label">Last name</label>
+                    <input type="text" name="last_name" maxlength="150" id="id_last_name" class="form-control">
+                </div>
+            </div>
+        </div>
+        <!-- username -->
+        <div class="mb-3 username-field">
+            <label for="id_username" class="form-label">Username</label>
+            <input type="text" name="username" maxlength="150" required id="id_username" class="form-control">
+        </div>
+        <!-- email -->
+        <div class="mb-3 username-field">
+            <label for="id_email" class="form-label">Email</label>
+            <input type="email" name="email" maxlength="254" id="id_email" class="form-control">
+        </div>
+        <!-- password -->
+        <div class="mb-3 password-field">
+            <label for="id_password" class="form-label">password</label>
+            <input type="password" name="password" required id="id_password" class="form-control">
+        </div>
+        <!-- password -->
+        <div class="mb-3 password-field">
+            <label for="id_password2" class="form-label">Confirm Password</label>
+            <input type="password" name="password2" required id="id_password2" class="form-control">
+        </div>
+        <!-- submit btn -->
+        <input type="submit" value="Register" class="btn btn-success">
+        <a href="{% url 'users:user-login' %}" class="btn btn-secondary" role="button">Back to Login</a>
+    </form>
+</div>
+{% endblock %}

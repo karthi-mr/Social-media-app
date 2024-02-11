@@ -22,9 +22,11 @@
         </div>
         <a href="{% url 'users:password-reset' %}"
             class="link-danger d-block mb-3 text-end link-underline-opacity-0 link-underline-opacity-50-hover">
-            Forget Password
+            Forget Password?
         </a>
         <input type="submit" value="Login" class="btn btn-success">
+        <a href="{% url 'users:user-register' %}"
+            class="link link-secondary link-underline-opacity-0 link-underline-opacity-50-hover">Create new account?</a>
     </form>
 </div>
 {% endblock %}

@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from users.forms import LoginForm
+from users.forms import LoginForm, RegistrationForm
 
 
 def user_login(request):
@@ -37,3 +37,32 @@ def user_logout(request):
 @login_required(login_url="login/")
 def index(request):
     return render(request, "users/index.html")
+
+
+def user_register(request):
+    if request.method == 'POST':
+        userForm = RegistrationForm(request.POST)
+        if userForm.is_valid():
+            newUser = userForm.save(commit=False)
+            if not userForm.check_password():
+                userForm.add_error("password", "Password doesn't match")
+                return render(
+                    request,
+                    "users/register.html",
+                    {"user_form": userForm, "error_message": userForm.errors},
+                )
+            newUser.set_password(userForm.cleaned_data['password'])
+            newUser.save()
+            return render(
+                request,
+                "users/register.html",
+                {"user_form": userForm, "register_success": True},
+            )
+        else:
+            return render(
+                request,
+                "users/register.html",
+                {"user_form": userForm, "error_message": userForm.errors},
+            )
+    userForm = RegistrationForm()
+    return render(request, "users/register.html", {"user_form": userForm})
