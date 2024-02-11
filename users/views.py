@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from users.forms import LoginForm, RegistrationForm
+from users.forms import LoginForm, ProfileEditForm, RegistrationForm, UserEditForm
+from users.models import Profile
 
 
 def user_login(request):
@@ -53,6 +54,7 @@ def user_register(request):
                 )
             newUser.set_password(userForm.cleaned_data['password'])
             newUser.save()
+            Profile.objects.create(user=newUser)
             return render(
                 request,
                 "users/register.html",
@@ -66,3 +68,26 @@ def user_register(request):
             )
     userForm = RegistrationForm()
     return render(request, "users/register.html", {"user_form": userForm})
+
+
+@login_required
+def user_edit(request):
+    if request.method == 'POST':
+        userForm = UserEditForm(instance=request.user, data=request.POST)
+        profileForm = ProfileEditForm(
+            instance=request.user.profile, data=request.POST, files=request.FILES
+        )
+        if userForm.is_valid() and profileForm.is_valid():
+            userForm.save()
+            profileForm.save()
+    else:
+        userForm = UserEditForm(instance=request.user)
+        profileForm = ProfileEditForm(instance=request.user.profile)
+    return render(
+        request,
+        "users/edit.html",
+        {
+            "user_form": userForm,
+            "profile_form": profileForm,
+        },
+    )

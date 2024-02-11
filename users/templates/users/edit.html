@@ -1,0 +1,81 @@
+{% extends "users/base.html" %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-uppercase my-3 text-center text-primary opacity-50">Edit Profile</h1>
+    <form action="" method="post" enctype="multipart/form-data" class="w-50 mx-auto shadow-lg px-5 py-4">
+        {% csrf_token %}
+        {% if form.errors %}
+        <div class="alert alert-danger list-unstyled">
+            {{ form.errors }}
+        </div>
+        {% endif %}
+        <!-- first_name and last_name -->
+        <div class="row">
+            <div class="col-md-6 col-12">
+                <!-- first_name -->
+                <div class="mb-3">
+                    <label for="id_first_name" class="form-label">First name</label>
+                    <input
+                        type="text"
+                        name="first_name"
+                        value="{{ user_form.instance.first_name }}"
+                        maxlength="150"
+                        id="id_first_name"
+                        class="form-control">
+                </div>
+            </div>
+            <div class="col-md-6 col-12">
+                <!-- last_name -->
+                <div class="mb-3">
+                    <label for="id_last_name" class="form-label">Last name</label>
+                    <input
+                        type="text"
+                        name="last_name"
+                        value="{{ user_form.instance.last_name }}"
+                        maxlength="150"
+                        id="id_last_name"
+                        class="form-control">
+                </div>
+            </div>
+        </div>
+        <!-- email -->
+        <div class="mb-3">
+            <label for="id_email" class="form-label">Email</label>
+            <input
+                type="email"
+                name="email"
+                value="{{ user_form.instance.email }}"
+                maxlength="254"
+                id="id_email"
+                class="form-control">
+        </div>
+        <!-- profile image -->
+        <div class="mb-3 user-profile-img">
+            <label for="id_profile_image" class="form-label d-block">Profile image</label>
+            {% if profile_form.instance.profile_image %}
+            <img
+                src="{{ profile_form.instance.profile_image.url }}"
+                alt="{{ profile_form.instance.profile_image.url }}"
+                class="img-fluid w-50 h-auto">
+            {% endif %}
+            <input type="file" name="profile_image" accept="image/*" id="id_profile_image" class="form-control mt-3">
+            <div class="form-check form-switch">
+                <input type="checkbox" name="profile_image-clear" id="profile_image-clear_id" class="form-check-input">
+                <label for="profile_image-clear_id" class="form-check-label">Clear</label>
+            </div>
+        </div>
+        <!-- buttons -->
+        <input type="submit" value="Update Profile" role="button" class="btn btn-success">
+        <a href="{% url 'users:index' %}" role="button" class="btn btn-danger">Cancel</a>
+    </form>
+</div>
+
+<!-- <h2>Edit profile form</h2>
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    {{ profile_form.as_p }}
+</form> -->
+
+{% endblock body %}
