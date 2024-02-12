@@ -4,13 +4,14 @@
 
 {% block body %}
 <div class="container mt-4 mb-5">
-    <h2 class="text-primary text-center my-3">All Posts</h2>
+    <h2 class="text-primary text-center my-3">{{ title }}</h2>
     <div class="w-75 mx-auto">
         <a href="{% url 'posts:create-post' %}" class="btn btn-primary mb-3" role="button">
             <span class="text-white"><i class="fa-solid fa-plus"></i></span>
             Create Post
         </a>
     </div>
+    {% if posts %}
     {% for post in posts %}
     <div class="card mb-3 w-75 mx-auto border-0 shadow-lg">
         <div class="card-body">
@@ -79,6 +80,9 @@
         </div>
     </div>
     {% endfor %}
+    {% else %}
+    <p class="display-4 fw-bold text-danger text-center">No posts posted yet.</p>
+    {% endif %}
 </div>
 <script type="text/javascript">
     var csrftoken = '{{ csrf_token }}';

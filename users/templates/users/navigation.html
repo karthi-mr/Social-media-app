@@ -9,10 +9,10 @@
         <div class="collapse navbar-collapse" id="nav-content">
             <ul class="navbar-nav ms-auto me-4 mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a href="{% url 'index' %}" class="nav-link active">Home</a>
+                    <a href="{% url 'index' %}" class="nav-link" id="home-nav">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'posts:my-post' %}" class="nav-link">My Posts</a>
+                    <a href="{% url 'posts:my-post' %}" class="nav-link" id="my-post-nav">My Posts</a>
                 </li>
                 <li class="nav-item">
                     {% if user.is_authenticated %}
@@ -35,7 +35,9 @@
     </div>
     <div class="offcanvas-body text-center">
         <a href="{% url 'users:user-edit' %}" class="btn btn-outline-success w-75 my-3" role="button">Edit Profile</a>
-        <a href="{% url 'users:password_change' %}" class="btn btn-outline-success w-75 my-3" role="button">Change Password</a>
+        <a href="{% url 'users:password_change' %}" class="btn btn-outline-success w-75 my-3" role="button">
+            Change Password
+        </a>
         <a href="{% url 'users:user-logout' %}" class="btn btn-outline-danger w-75" role="button">Logout</a>
     </div>
 </div>

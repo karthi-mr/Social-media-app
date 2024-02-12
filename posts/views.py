@@ -22,13 +22,13 @@ def post_create(request):
 def my_posts(request):
     currentUser = request.user
     myPosts = Post.objects.filter(user=currentUser)
-    return render(request, "posts/feed.html", {"posts": myPosts})
+    return render(request, "posts/feed.html", {"posts": myPosts, "title": "My Posts"})
 
 
 @login_required
 def feed(request):
     posts = Post.objects.all().order_by("-created")
-    return render(request, "posts/feed.html", {"posts": posts})
+    return render(request, "posts/feed.html", {"posts": posts, "title": "All Posts"})
 
 
 @login_required
