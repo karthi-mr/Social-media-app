@@ -1,5 +1,6 @@
 {% extends "users/base.html" %}
 {% load static %}
+{% load mathfilters %}
 
 {% block body %}
 <div class="container mt-4 mb-5">
@@ -52,10 +53,34 @@
         </div>
         <img src="{{ post.image.url }}" alt="{{ post.title }}" class="card-img-bottom img-thumbnail">
         <div class="icons py-2">
-            <img src="{% static 'posts/images/empty_heart.png' %}" alt="like" class="img-fluid like-dislike-image px-2">
-            <img src="{% static 'posts/images/comment.png' %}" alt="like" class="img-fluid comment-image px-2">
+            {% if user in post.liked_by.all %}
+            <img src="{% static 'posts/images/full_heart.png' %}"
+                alt="like"
+                class="img-fluid like-dislike-image px-2"
+                onclick="doLike('{{ post.id }}')">
+            {% else %}
+            <img src="{% static 'posts/images/empty_heart.png' %}"
+                alt="like"
+                class="img-fluid like-dislike-image px-2"
+                onclick="doLike('{{ post.id }}')">
+            {% endif %}
+            <span class="text-secondary opacity-75">
+                {% if post.liked_by.count == 0 %}
+                    No Likes
+                {% elif post.liked_by.count == 1 %}
+                    <b>{{ post.liked_by.first }}</b> Likes this
+                {% elif post.liked_by.count == 2 %}
+                    <b>{{ post.liked_by.first }}</b> and <b>{{ post.liked_by.count|sub:1 }} other</b> Likes this
+                {% elif post.liked_by.count > 1 %}
+                    <b>{{ post.liked_by.first }}</b> and <b>{{ post.liked_by.count|sub:1 }} others</b> Likes this
+                {% endif %}
+            </span>
+            <!-- <img src="{% static 'posts/images/comment.png' %}" alt="like" class="img-fluid comment-image px-2"> -->
         </div>
     </div>
     {% endfor %}
 </div>
+<script type="text/javascript">
+    var csrftoken = '{{ csrf_token }}';
+</script>
 {% endblock body %}
