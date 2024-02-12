@@ -65,18 +65,48 @@
                 class="img-fluid like-dislike-image px-2"
                 onclick="doLike('{{ post.id }}')">
             {% endif %}
+            <!-- <img src="{% static 'posts/images/comment.png' %}" alt="like" class="img-fluid comment-image px-2"> -->
+        </div>
+        <div class="like-msg px-3">
             <span class="text-secondary opacity-75">
                 {% if post.liked_by.count == 0 %}
-                    No Likes
+                No Likes
                 {% elif post.liked_by.count == 1 %}
-                    <b>{{ post.liked_by.first }}</b> Likes this
+                <b>{{ post.liked_by.first }}</b> Likes this
                 {% elif post.liked_by.count == 2 %}
-                    <b>{{ post.liked_by.first }}</b> and <b>{{ post.liked_by.count|sub:1 }} other</b> Likes this
+                <b>{{ post.liked_by.first }}</b> and <b>{{ post.liked_by.count|sub:1 }} other</b> Likes this
                 {% elif post.liked_by.count > 1 %}
-                    <b>{{ post.liked_by.first }}</b> and <b>{{ post.liked_by.count|sub:1 }} others</b> Likes this
+                <b>{{ post.liked_by.first }}</b> and <b>{{ post.liked_by.count|sub:1 }} others</b> Likes this
                 {% endif %}
             </span>
-            <!-- <img src="{% static 'posts/images/comment.png' %}" alt="like" class="img-fluid comment-image px-2"> -->
+        </div>
+        <div class="comment-msg px-5 py-2">
+            {% for comment in post.comments.all %}
+            <div class="comment-message pb-2">
+                <span class="fw-normal d-block">{{ comment.body }}</span>
+                <span class="text-primary fw-semibold opacity-75">@{{ comment.posted_by.username }}</span>
+                <span>on</span>
+                <span class="text-success fw-semibold opacity-75">{{ comment.created| timesince }} ago</span>
+            </div>
+            {% endfor %}
+            <div class="comment-form shadow-sm py-3 px-3 bg-primary-subtle">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3 form-floating">
+                        <textarea
+                            name="body"
+                            required
+                            id="id_body"
+                            rows="2"
+                            class="form-control"
+                            placeholder="-"></textarea>
+                        <label for="id_body" class="form-label">Add comment here</label>
+                    </div>
+                    <input type="hidden" name="post_id" value="{{ post.id }}">
+                    <input type="submit" value="Add Comment" class="btn btn-success mb-2">
+                    <!-- {{ comment_form.as_p }} -->
+                </form>
+            </div>
         </div>
     </div>
     {% endfor %}

@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
-from posts.forms import PostCreateForm
+from posts.forms import CommentForm, PostCreateForm
 from posts.models import Post
 
 
@@ -27,8 +27,22 @@ def my_posts(request):
 
 @login_required
 def feed(request):
+    if request.method == 'POST':
+        commentForm = CommentForm(request.POST)
+        if commentForm.is_valid():
+            newComment = commentForm.save(commit=False)
+            postId = request.POST.get('post_id')
+            newComment.posted_by = request.user
+            post = get_object_or_404(Post, id=postId)
+            newComment.post = post
+            newComment.save()
+    commentForm = CommentForm()
     posts = Post.objects.all().order_by("-created")
-    return render(request, "posts/feed.html", {"posts": posts, "title": "All Posts"})
+    return render(
+        request,
+        "posts/feed.html",
+        {"posts": posts, "title": "All Posts", 'comment_form': commentForm},
+    )
 
 
 @login_required
