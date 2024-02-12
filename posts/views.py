@@ -22,7 +22,7 @@ def post_create(request):
 def my_posts(request):
     currentUser = request.user
     myPosts = Post.objects.filter(user=currentUser)
-    return render(request, "posts/my_posts.html", {"my_posts": myPosts})
+    return render(request, "posts/feed.html", {"posts": myPosts})
 
 
 @login_required
